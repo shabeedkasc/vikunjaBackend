@@ -1,0 +1,159 @@
+<template>
+	<dropdown>
+		<template #trigger="triggerProps">
+			<slot name="trigger" v-bind="triggerProps">
+				<BaseButton class="dropdown-trigger" @click="triggerProps.toggleOpen">
+					<icon icon="ellipsis-h" class="icon"/>
+				</BaseButton>
+			</slot>
+		</template>
+
+		<template v-if="isSavedFilter(project)">
+			<dropdown-item
+				:to="{ name: 'filter.settings.edit', params: { projectId: project.id } }"
+				icon="pen"
+				
+			>
+			<span >{{ $t('menu.edit') }} </span>	
+			</dropdown-item>
+			<dropdown-item
+				:to="{ name: 'filter.settings.delete', params: { projectId: project.id } }"
+				icon="trash-alt"
+			>
+			
+				{{ $t('misc.delete') }}
+			</dropdown-item>
+		</template>
+
+		<template v-else-if="project.isArchived">
+			<dropdown-item
+				:to="{ name: 'project.settings.archive', params: { projectId: project.id } }"
+				icon="archive"
+			>
+				{{ $t('menu.unarchive') }}
+			</dropdown-item>
+		</template>
+		<template v-else>
+			<dropdown-item
+				:to="{ name: 'project.settings.edit', params: { projectId: project.id } }"
+				icon="pen"
+			>
+			<span class="padding-right10" > 	{{ $t('menu.edit') }} </span>
+			</dropdown-item>
+			<dropdown-item
+				v-if="backgroundsEnabled"
+				:to="{ name: 'project.settings.background', params: { projectId: project.id } }"
+				icon="image"
+			>	<span class="padding-right10" > 	{{ $t('menu.setBackground') }} </span>
+				
+			</dropdown-item>
+			<dropdown-item
+				:to="{ name: 'project.settings.share', params: { projectId: project.id } }"
+				icon="share-alt"
+			>
+			<span class="padding-right10" > 	{{ $t('menu.share') }} </span>
+			
+			</dropdown-item>
+			<dropdown-item
+				:to="{ name: 'project.settings.duplicate', params: { projectId: project.id } }"
+				icon="paste"
+			>
+			<span class="padding-right10" > 		{{ $t('menu.duplicate') }}</span>
+			
+			</dropdown-item>
+			<dropdown-item
+				:to="{ name: 'project.settings.archive', params: { projectId: project.id } }"
+				icon="archive"
+			>
+			<span class="padding-right10" > 		{{ $t('menu.archive') }}</span>
+			
+			</dropdown-item>
+			<Subscription
+				class="has-no-shadow "
+				:is-button="false"
+				entity="project"
+				:entity-id="project.id"
+				:model-value="project.subscription"
+				@update:model-value="setSubscriptionInStore"
+				type="dropdown"
+			/>
+			<dropdown-item
+				:to="{ name: 'project.settings.webhooks', params: { projectId: project.id } }"
+				icon="bolt"
+			>
+			<span class="padding-right10" > 		{{ $t('project.webhooks.title') }}</span>
+			
+			</dropdown-item>
+			<dropdown-item
+				v-if="level < 2"
+				:to="{ name: 'project.createFromParent', params: { parentProjectId: project.id } }"
+				icon="layer-group"
+			>
+			<span class="padding-right10" > 	{{ $t('menu.createProject') }}</span>
+				
+			</dropdown-item>
+			<dropdown-item
+				:to="{ name: 'project.settings.delete', params: { projectId: project.id } }"
+				icon="trash-alt"
+				class="has-text-danger"
+			>
+			<span class="padding-right10" > {{ $t('menu.delete') }}</span>
+				
+			</dropdown-item>
+		</template>
+	</dropdown>
+</template>
+
+<script setup lang="ts">
+import {ref, computed, watchEffect, type PropType} from 'vue'
+
+import BaseButton from '@/components/base/BaseButton.vue'
+import Dropdown from '@/components/misc/dropdown.vue'
+import DropdownItem from '@/components/misc/dropdown-item.vue'
+import Subscription from '@/components/misc/subscription.vue'
+import type {IProject} from '@/modelTypes/IProject'
+import type {ISubscription} from '@/modelTypes/ISubscription'
+
+import {isSavedFilter} from '@/services/savedFilter'
+import {useConfigStore} from '@/stores/config'
+import {useProjectStore} from '@/stores/projects'
+
+const props = defineProps({
+	project: {
+		type: Object as PropType<IProject>,
+		required: true,
+	},
+	level: {
+		type: Number,
+	},
+})
+
+const projectStore = useProjectStore()
+const subscription = ref<ISubscription | null>(null)
+watchEffect(() => {
+	subscription.value = props.project.subscription ?? null
+})
+
+const configStore = useConfigStore()
+const backgroundsEnabled = computed(() => configStore.enabledBackgroundProviders?.length > 0)
+
+function setSubscriptionInStore(sub: ISubscription) {
+	subscription.value = sub
+	const updatedProject = {
+		...props.project,
+		subscription: sub,
+	}
+	projectStore.setProject(updatedProject)
+}
+</script>
+<style lang="scss" scoped>
+
+
+  
+//   .loader-container a {
+// 	align-self: flex-end;
+//   }
+  
+
+
+</style>
