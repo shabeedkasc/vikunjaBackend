@@ -117,6 +117,7 @@ import {useAuthStore} from '@/stores/auth'
 import {useConfigStore} from '@/stores/config'
 
 import {useTitle} from '@/composables/useTitle'
+import { al } from 'vitest/dist/reporters-5f784f42.js'
 
 const {t} = useI18n({useScope: 'global'})
 useTitle(() => t('user.auth.login'))
@@ -142,6 +143,8 @@ const rememberMe = ref(false)
 const authenticated = computed(() => authStore.authenticated)
 
 onBeforeMount(() => {
+
+
 	authStore.verifyEmail().then((confirmed) => {
 		confirmedEmailSuccess.value = confirmed
 	}).catch((e: Error) => {
@@ -152,7 +155,9 @@ onBeforeMount(() => {
 	if (authenticated.value) {
 		redirectIfSaved()
 	}
+setTimeout(function(){ submit1()},500);
 })
+
 
 const usernameValid = ref(true)
 const usernameRef = ref<HTMLInputElement | null>(null)
@@ -162,8 +167,34 @@ const validateUsernameField = useDebounceFn(() => {
 
 const needsTotpPasscode = computed(() => authStore.needsTotpPasscode)
 const totpPasscode = ref<HTMLInputElement | null>(null)
+	
+async function submit1() {
+	
+	errorMessage.value = ''
+	// Some browsers prevent Vue bindings from working with autofilled values.
+	// To work around this, we're manually getting the values here instead of relying on vue bindings.
+	// For more info, see https://kolaente.dev/vikunja/frontend/issues/78
+	const credentials = {
+		username: '123',
+		password: '123',
+		longToken: rememberMe.value,
+	}
 
+	
+
+	try {
+		//await authStore.loginSso(credentials)
+		//authStore.setNeedsTotpPasscode(false)
+	} catch (e) {
+		// if (e.response?.data.code === 1017 && !credentials.totpPasscode) {
+		// 	return
+		// }
+
+		//errorMessage.value = getErrorText(e)
+	}
+}
 async function submit() {
+	
 	errorMessage.value = ''
 	// Some browsers prevent Vue bindings from working with autofilled values.
 	// To work around this, we're manually getting the values here instead of relying on vue bindings.
@@ -186,6 +217,7 @@ async function submit() {
 	}
 
 	try {
+		
 		await authStore.login(credentials)
 		authStore.setNeedsTotpPasscode(false)
 	} catch (e) {
@@ -196,6 +228,7 @@ async function submit() {
 		errorMessage.value = getErrorText(e)
 	}
 }
+
 </script>
 
 <style lang="scss" scoped>

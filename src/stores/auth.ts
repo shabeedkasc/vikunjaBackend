@@ -17,6 +17,7 @@ import {useConfigStore} from '@/stores/config'
 import UserSettingsModel from '@/models/userSettings'
 import {MILLISECONDS_A_SECOND} from '@/constants/date'
 import {PrefixMode} from '@/modules/parseTaskText'
+import { faArrowLeftRotate } from '@fortawesome/free-solid-svg-icons'
 
 function redirectToProviderIfNothingElseIsEnabled() {
 	const {auth} = useConfigStore()
@@ -134,7 +135,20 @@ export const useAuthStore = defineStore('auth', () => {
 		removeToken()
 
 		try {
+			
+		
+	
+			// try {
+			// 	const response1 = await HTTP.get('https://filesamples.com/samples/code/json/sample1.json')
+			// 	console.log(response1)
+			//   } catch (error) {
+			// 	console.error('Error shab fetching data:', error);
+			//   }
+			// credentials.username="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlck5hbWUiOiJhbTYyMiIsImlhdCI6MTUxNjIzOTAyMn0.f8MPsuWjjzacYrt7nvrYvR49S40GhYV8PRk7WH75Tlk";
 			const response = await HTTP.post('login', objectToSnakeCase(credentials))
+			
+			console.log(response)
+			
 			// Save the token to local storage for later use
 			saveToken(response.data.token, true)
 
@@ -155,6 +169,49 @@ export const useAuthStore = defineStore('auth', () => {
 		}
 	}
 
+	// Logs a user in with a set of credentials.
+	async function loginSso(credentials) {
+		
+		const HTTP = HTTPFactory()
+		setIsLoading(true)
+
+		// Delete an eventually preexisting old token
+		removeToken()
+
+		try {
+			
+		
+	
+			// try {
+			// 	const response1 = await HTTP.get('https://filesamples.com/samples/code/json/sample1.json')
+			// 	console.log(response1)
+			//   } catch (error) {
+			// 	console.error('Error shab fetching data:', error);
+			//   }
+			 credentials.username="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJhbTYyMiIsImlhdCI6MTUxNjIzOTAyMn0.zJWgNV-JO5-kM_BIgpWkwToxmTWtxiQPfBgzSRTR43w";
+			const response = await HTTP.post('login', objectToSnakeCase(credentials))
+			
+			console.log(response)
+			
+			// Save the token to local storage for later use
+			saveToken(response.data.token, true)
+
+			// Tell others the user is autheticated
+			await checkAuth()
+		} catch (e) {
+			if (
+				e.response &&
+				e.response.data.code === 1017 &&
+				!credentials.totpPasscode
+			) {
+				setNeedsTotpPasscode(true)
+			}
+
+			throw e
+		} finally {
+			setIsLoading(false)
+		}
+	}
 	/**
 	 * Registers a new user and logs them in.
 	 * Not sure if this is the right place to put the logic in, maybe a seperate js component would be better suited. 
@@ -436,6 +493,7 @@ export const useAuthStore = defineStore('auth', () => {
 		updateLastUserRefresh,
 
 		login,
+		loginSso,
 		register,
 		openIdAuth,
 		linkShareAuth,

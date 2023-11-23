@@ -4,8 +4,8 @@
 			:class="{'is-loading': taskService.loading}"
 			class="task loader-container"
 			@click.stop.self="openTaskDetail"
-		>
-			<fancycheckbox
+		><slot/>
+		<fancycheckbox 
 				:disabled="(isArchived || disabled) && !canMarkAsDone"
 				@update:model-value="markAsDone"
 				v-model="task.done"
@@ -38,8 +38,8 @@
 					class="mr-1 padding-right10"
 				/>
 			
-				<priority-label :priority="task.priority" :done="task.done" class="pr-2 padding-right10"/>
-				
+				<priority-label :priority="task.priority" :done="task.done" class="pr-2 padding-right10 " />
+				&nbsp;	
 				<router-link
 					:to="taskDetailRoute"
 					class="task-link padding-right10"
@@ -114,14 +114,14 @@
 				class="mr-1"
 			/>
 			
-			<router-link
-				v-if="showProjectSeparately"
-				:to="{ name: 'project.list', params: { projectId: task.projectId } }"
-				class="task-project"
-				v-tooltip="$t('task.detail.belongsToProject', {project: project.title})"
-			>
-				{{ project.title }}
-			</router-link>
+					<router-link
+						v-if="showProjectSeparately"
+						:to="{ name: 'project.list', params: { projectId: task.projectId } }"
+						class="task-project"
+						v-tooltip="$t('task.detail.belongsToProject', {project: project.title})"
+					>
+						{{ project.title }}
+					</router-link>
 
 			<BaseButton
 				:class="{'is-favorite': task.isFavorite}"
@@ -131,7 +131,7 @@
 				<icon icon="star" v-if="task.isFavorite"/>
 				<icon :icon="['far', 'star']" v-else/>
 			</BaseButton>
-			<slot/>
+			
 		</div>
 		<template v-if="typeof task.relatedTasks?.subtask !== 'undefined'">
 			<template v-for="subtask in task.relatedTasks.subtask">

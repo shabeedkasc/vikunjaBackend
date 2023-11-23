@@ -22,7 +22,7 @@
 								<icon icon="search"/>
 							</span>
 						</div>
-						<div class="control ">
+						<div class="control padding-right10">
 							<x-button
 								:loading="loading"
 								@click="searchTasks"

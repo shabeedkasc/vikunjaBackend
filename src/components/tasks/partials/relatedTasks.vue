@@ -98,13 +98,14 @@
 								class="different-project"
 								v-if="t.projectId !== projectId"
 							>
-								<span
+								<span class="padding-right10"
 									v-if="t.differentProject !== null"
 									v-tooltip="$t('task.relation.differentProject')">
+									
 									{{ t.differentProject }} >
 								</span>
 							</span>
-							{{ t.title }}
+							<span class="padding-right10">	{{ t.title }} </span>
 						</router-link>
 					</div>
 					<BaseButton

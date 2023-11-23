@@ -69,7 +69,7 @@
 					</div>
 				</div>
 				<x-button @click="add(projectId)" icon="plus">
-					{{ $t('project.share.share') }}
+				<span class="padding-right10">	{{ $t('project.share.share') }}</span>
 				</x-button>
 			</div>
 

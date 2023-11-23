@@ -45,7 +45,7 @@
 				@click="projectStore.toggleProjectFavorite(project)"
 			>
 				<icon :icon="project.isFavorite ? 'star' : ['far', 'star']"/>
-			</BaseButton>
+			</BaseButton> 
 			<ProjectSettingsDropdown
 				v-if="project.id > 0"
 				class="menu-list-dropdown"

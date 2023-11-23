@@ -21,6 +21,7 @@
 						:show-username="false"
 						:avatar-size="16"
 						v-if="n.notification.doer"
+						class="padding-right10"
 					/>
 					<div class="detail">
 						<div>
@@ -181,7 +182,7 @@ async function markAllRead() {
 
 	.notifications-list {
 		position: absolute;
-		right: 1rem;
+		left: 1rem;
 		top: calc(100% + 1rem);
 		max-height: 400px;
 		overflow-y: auto;

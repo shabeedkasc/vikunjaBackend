@@ -8,7 +8,7 @@
 		>
 		<span class="padding-right10" >	{{ $t('team.create.title') }}</span>
 		</x-button>
-<div style="padding-right: 200px;"> 
+<div style="padding-right: 210px;"> 
 		
 		<ul class="teams box " v-if="teams.length > 0">
 			<li :key="t.id" v-for="t in teams">
@@ -48,7 +48,7 @@ teamService.getAll().then((result) => {
 
 ul.teams {
   padding: 0;
-  margin-left: 0;
+  margin-right: 0;
   overflow: hidden;
 
   li {

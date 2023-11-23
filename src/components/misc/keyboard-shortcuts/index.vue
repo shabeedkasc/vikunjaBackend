@@ -47,7 +47,7 @@ function close() {
 
 <style scoped>
 .keyboard-shortcuts {
-	text-align: left;
+	text-align: right;
 }
 
 .message:not(:last-child) {

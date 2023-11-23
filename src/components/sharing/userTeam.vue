@@ -18,7 +18,7 @@
 						v-model="sharable"
 					/>
 				</p>
-				<p class="control">
+				<p class="control padding-right10">
 					<x-button @click="add()">{{ $t('project.share.share') }}</x-button>
 				</p>
 			</div>
@@ -52,23 +52,25 @@
 							<span class="icon is-small">
 								<icon icon="lock"/>
 							</span>
-						{{ $t('project.share.right.admin') }}
+							<span class="padding-right10">	{{ $t('project.share.right.admin') }}</span>	
+					
 					</template>
 					<template v-else-if="s.right === RIGHTS.READ_WRITE">
 							<span class="icon is-small">
 								<icon icon="pen"/>
 							</span>
-						{{ $t('project.share.right.readWrite') }}
+						
+						<span class="padding-right10"> {{ $t('project.share.right.readWrite') }}</span>	
 					</template>
 					<template v-else>
 							<span class="icon is-small">
 								<icon icon="users"/>
 							</span>
-						{{ $t('project.share.right.read') }}
+				<span class="padding-right10"> 	{{ $t('project.share.right.read') }}</span>	
 					</template>
 				</td>
 				<td class="actions" v-if="userIsAdmin">
-					<div class="select">
+					<div class="select  padding-left10">
 						<select
 							@change="toggleType(s)"
 							class="mr-2"
@@ -93,7 +95,7 @@
 								{{ $t('project.share.right.admin') }}
 							</option>
 						</select>
-					</div>
+					</div>	
 					<x-button
 						@click="
 								() => {

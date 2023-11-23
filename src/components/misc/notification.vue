@@ -10,7 +10,7 @@
 				]"
 				@click="close()"
 			>
-				<div v-if="item.title" class="notification-title">{{ item.title }}</div>
+				<div v-if="item.title" class="notification-title">{{ item.title }} dsdsds</div>
 				<div class="notification-content">
 					<template v-for="(t, k) in item.text" :key="k">{{ t }}<br /></template>
 				</div>

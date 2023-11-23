@@ -4,27 +4,27 @@
 			<fancycheckbox
 				v-model="params.filter_include_nulls"
 				@update:model-value="change()"
-			>
-				{{ $t('filters.attributes.includeNulls') }}
+		>
+		<span class="padding-right10">{{ $t('filters.attributes.includeNulls') }}</span>		
 			</fancycheckbox>
 			<fancycheckbox
 				v-model="filters.requireAllFilters"
 				@update:model-value="setFilterConcat()"
 			>
-				{{ $t('filters.attributes.requireAll') }}
-			</fancycheckbox>
+			<span class="padding-right10">{{ $t('filters.attributes.requireAll') }}</span>		
+			</fancycheckbox> 
 			<fancycheckbox
 				v-model="filters.done"
 				@update:model-value="setDoneFilter"
 			>
-				{{ $t('filters.attributes.showDoneTasks') }}
+			<span class="padding-right10">{{ $t('filters.attributes.showDoneTasks') }}</span>	
 			</fancycheckbox>
 			<fancycheckbox
 				v-if="!['project.kanban', 'project.table'].includes($route.name as string)"
 				v-model="sortAlphabetically"
 				@update:model-value="change()"
 			>
-				{{ $t('filters.attributes.sortAlphabetically') }}
+			<span class="padding-right10">{{ $t('filters.attributes.sortAlphabetically') }}</span>	
 			</fancycheckbox>
 		</div>
 		<div class="field">
@@ -51,7 +51,7 @@
 					v-model="filters.usePriority"
 					@update:model-value="setPriority"
 				>
-					{{ $t('filters.attributes.enablePriority') }}
+				<span class="padding-right10">{{ $t('filters.attributes.enablePriority') }}</span>	
 				</fancycheckbox>
 			</div>
 		</div>
@@ -67,7 +67,7 @@
 					v-model="filters.usePercentDone"
 					@update:model-value="setPercentDoneFilter"
 				>
-					{{ $t('filters.attributes.enablePercentDone') }}
+				<span class="padding-right10">{{ $t('filters.attributes.enablePercentDone') }}</span>	
 				</fancycheckbox>
 			</div>
 		</div>
@@ -102,7 +102,7 @@
 			</div>
 		</div>
 		<div class="field">
-			<label class="label">{{ $t('task.attributes.endDate') }}</label>
+			<label class="label"> <span class="padding-right10"></span> {{ $t('task.attributes.endDate') }}</label>
 			<div class="control">
 				<datepicker-with-range
 					v-model="filters.endDate"

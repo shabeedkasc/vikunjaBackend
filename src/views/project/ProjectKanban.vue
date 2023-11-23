@@ -126,7 +126,7 @@
 									icon-class="has-text-danger"
 									icon="trash-alt"
 								>
-								<span class="padding-right10">	{{ $t('misc.delete') }}</span>
+								<span class="padding-right10">	{{ $t('misc.delete') }}	</span>
 									
 								</dropdown-item>
 							</dropdown>

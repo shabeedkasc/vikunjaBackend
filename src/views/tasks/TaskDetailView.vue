@@ -248,7 +248,7 @@
 							<span class="icon is-grey">
 								<icon icon="sitemap"/>
 							</span>
-							{{ $t('task.attributes.relatedTasks') }}
+						<span style="margin: 30px;">	{{ $t('task.attributes.relatedTasks') }}</span>
 						</h3>
 						<related-tasks
 							:edit-enabled="canWrite"
